@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Saver - Tu Asistente de Vida Social Inteligente</title>
+    <meta name="description" content="Descubre eventos increíbles, planifica con amigos y nunca te pierdas la diversión. Con IA que te conoce mejor que tú mismo.">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23667eea'/%3E%3Ctext x='50' y='65' font-size='50' text-anchor='middle' fill='white'%3E🎯%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing" class="screen active">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="logo">
+                    <h1>🎯 Plan Saver</h1>
+                    <p class="tagline">Tu Asistente de Vida Social Inteligente</p>
+                </div>
+                
+                <div class="hero-text">
+                    <h2>La vida es para vivirla.<br>Nosotros la organizamos por ti.</h2>
+                    <p>Descubre eventos increíbles, planifica con amigos y nunca te pierdas la diversión. Con IA que te conoce mejor que tú mismo.</p>
+                </div>
+
+                <div class="hero-features">
+                    <div class="feature">
+                        <div class="feature-icon">🤖</div>
+                        <h3>IA Proactiva</h3>
+                        <p>Te sugiere eventos perfectos antes de que los busques</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">👥</div>
+                        <h3>Planificación Grupal</h3>
+                        <p>Organiza con amigos en 3 clics, olvídate del caos de WhatsApp</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🎮</div>
+                        <h3>Gamificación</h3>
+                        <p>Gana puntos, desbloquea logros y conviértete en leyenda urbana</p>
+                    </div>
+                </div>
+
+                <button class="cta-button" onclick="startOnboarding()">
+                    Empezar la Aventura
+                    <span class="cta-arrow">→</span>
+                </button>
+
+                <div class="demo-preview">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <div class="demo-bento">
+                                <div class="demo-card main">
+                                    <div class="shimmer"></div>
+                                    <p>Tu Próxima Gran Aventura</p>
+                                </div>
+                                <div class="demo-card">
+                                    <div class="shimmer"></div>
+                                </div>
+                                <div class="demo-card">
+                                    <div class="shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Chat -->
+    <div id="onboarding" class="screen">
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="ai-avatar">🤖</div>
+                <div class="ai-info">
+                    <h3>Sparky</h3>
+                    <p>Tu asistente personal</p>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be populated by JS -->
+            </div>
+
+            <div class="chat-input-area" id="chatInputArea">
+                <!-- Input will be populated by JS -->
+            </div>
+
+            <div class="onboarding-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p><span id="currentStep">1</span> de 5</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navigation Bar (Global) -->
+    <nav class="top-navbar" id="topNavbar" style="display: none;">
+        <div class="navbar-brand" onclick="showScreen('dashboard')">
+            <span>🎯</span>
+            <span>Plan Saver</span>
+        </div>
+        
+        <div class="navbar-links">
+            <button class="navbar-link" onclick="showScreen('dashboard')">
+                <span>🏠 Inicio</span>
+            </button>
+            <button class="navbar-link" onclick="showScreen('explore')">
+                <span>🔍 Explorar</span>
+            </button>
+            <button class="navbar-link" onclick="showScreen('calendar')">
+                <span>📅 Calendario</span>
+            </button>
+            <button class="navbar-link" onclick="showBudgetCalculator()">
+                <span>💰 Presupuesto</span>
+            </button>
+            <button class="navbar-link" onclick="showQuickStats()">
+                <span>📊 Stats</span>
+            </button>
+        </div>
+        
+        <div class="navbar-actions">
+            <button class="navbar-link" onclick="showNotifications()">
+                <span>🔔</span>
+                <span class="notification-badge" id="navNotificationCount">2</span>
+            </button>
+            <div class="navbar-user" onclick="showScreen('profile')">
+                <div class="user-avatar-small">
+                    <span id="navUserInitial">U</span>
+                </div>
+                <span id="navUserName">Usuario</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Voice Assistant Button -->
+    <div class="ai-voice-fab" id="aiVoiceButton">
+        <div class="voice-ripple"></div>
+        <button class="voice-btn" onclick="toggleVoiceAssistant()">
+            <span class="voice-icon">🎙️</span>
+            <span class="voice-text">Hablar</span>
+        </button>
+        <div class="voice-listening" id="voiceListening">
+            <div class="voice-wave"></div>
+            <div class="voice-wave"></div>
+            <div class="voice-wave"></div>
+        </div>
+    </div>
+    
+    <!-- Live Activity Ticker -->
+    <div class="live-ticker" id="liveTicker">
+        <div class="ticker-content">
+            <span class="ticker-item">🔥 134 personas viendo Bad Bunny ahora</span>
+            <span class="ticker-item">⚡ Zoé: Últimos 50 boletos</span>
+            <span class="ticker-item">🎉 Ana y 3 amigos confirmaron para Jesse & Joy</span>
+            <span class="ticker-item">💎 VIP disponible para Manu Chao</span>
+        </div>
+    </div>
+    
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="screen">
+        <div class="dashboard-container">
+            <header class="dashboard-header">
+                <div class="user-info">
+                    <div class="user-avatar">🎵</div>
+                    <div>
+                        <h2>¡Hola <span id="userName">Música Lover</span>!</h2>
+                        <p>Tienes 3 eventos esperándote | <small style="opacity: 0.7">💡 Usa los botones de abajo para navegar</small></p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="notification-btn">🔔 <span class="notification-count">2</span></button>
+                    <button class="profile-btn" onclick="showScreen('profile')">👤</button>
+                </div>
+            </header>
+
+            <div class="bento-grid">
+                <!-- Main recommendation -->
+                <div class="bento-card main-event">
+                    <div class="event-image">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop" alt="Concierto">
+                        <div class="event-badge">🎵 Recomendado por IA</div>
+                    </div>
+                    <div class="event-content">
+                        <h3>Zoé en el Foro Sol</h3>
+                        <p class="event-date">Sábado 23 Nov • 21:00</p>
+                        <p class="ai-reason">Basado en tu amor por el rock alternativo y que 3 amigos también están interesados</p>
+                        <div class="event-actions">
+                            <button class="btn-primary" onclick="createPlan('zoe-concert')">Crear Plan</button>
+                            <button class="btn-secondary" onclick="showBudgetCalculator()">💰</button>
+                            <button class="btn-secondary">💖</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Friends activity -->
+                <div class="bento-card friends-activity" onclick="showScreen('explore')">
+                    <h4>🫂 Tus Amigos Andan en Esto</h4>
+                    <div class="friends-list" id="friendsActivityCard">
+                        <div class="friend-activity">
+                            <div class="friend-avatars">
+                                <div class="avatar">A</div>
+                                <div class="avatar">M</div>
+                                <div class="avatar">S</div>
+                            </div>
+                            <div class="activity-text">
+                                <p><strong>Ana y 2 más</strong> van a ver</p>
+                                <p class="event-name">Bad Bunny World Tour</p>
+                            </div>
+                        </div>
+                        <button class="join-btn" onclick="event.stopPropagation(); showScreen('explore')">Ver Eventos</button>
+                    </div>
+                </div>
+
+                <!-- AI Friend Matching -->
+                <div class="bento-card ai-matching" onclick="startFriendMatching()">
+                    <div class="matching-badge">🤖 NUEVO</div>
+                    <div class="matching-icon">🤝</div>
+                    <h4>Find Your Squad</h4>
+                    <p style="font-size: 0.8rem;">IA encuentra tu grupo perfecto</p>
+                    <div class="matching-preview">
+                        <div class="match-avatar">A</div>
+                        <div class="match-avatar">M</div>
+                        <div class="match-avatar">+</div>
+                        <span class="match-text">95% compatible</span>
+                    </div>
+                    <button class="match-btn" onclick="event.stopPropagation(); startFriendMatching()">Quiz de 2 min →</button>
+                </div>
+
+                <!-- Calendar preview -->
+                <div class="bento-card calendar-preview" onclick="showScreen('calendar')">
+                    <h4>📅 Tu Calendario</h4>
+                    <div class="mini-calendar">
+                        <div class="calendar-event">
+                            <div class="event-dot music"></div>
+                            <span>Hoy • Café Tacvba</span>
+                        </div>
+                        <div class="calendar-event">
+                            <div class="event-dot art"></div>
+                            <span>Dom • Museo Frida</span>
+                        </div>
+                    </div>
+                    <button class="view-all-btn" onclick="event.stopPropagation(); showScreen('calendar')">Ver Todo</button>
+                </div>
+
+                <!-- New events -->
+                <div class="bento-card new-events" onclick="showScreen('explore')">
+                    <h4>✨ Novedades Cerca</h4>
+                    <div class="event-carousel">
+                        <div class="mini-event">
+                            <img src="https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=100&h=60&fit=crop" alt="Teatro">
+                            <div class="mini-event-info">
+                                <p class="mini-event-title">Romeo y Julieta</p>
+                                <p class="mini-event-venue">Teatro Metropólitan</p>
+                            </div>
+                        </div>
+                        <div class="mini-event">
+                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=100&h=60&fit=crop" alt="Concierto">
+                            <div class="mini-event-info">
+                                <p class="mini-event-title">Jesse & Joy</p>
+                                <p class="mini-event-venue">Auditorio Nacional</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.8rem; color: #667eea; margin-top: 0.5rem; cursor: pointer;">Click para explorar todos →</p>
+                </div>
+
+                <!-- Live Heatmap -->
+                <div class="bento-card heatmap-card">
+                    <div class="heatmap-header">
+                        <h4>🗺️ Dónde está la acción</h4>
+                        <span class="live-badge pulse">EN VIVO</span>
+                    </div>
+                    <div class="heatmap-zones">
+                        <div class="heat-zone hot" data-zone="Condesa">
+                            <span class="zone-name">Condesa</span>
+                            <span class="zone-count">423</span>
+                        </div>
+                        <div class="heat-zone warm" data-zone="Roma">
+                            <span class="zone-name">Roma</span>
+                            <span class="zone-count">312</span>
+                        </div>
+                        <div class="heat-zone mild" data-zone="Polanco">
+                            <span class="zone-name">Polanco</span>
+                            <span class="zone-count">189</span>
+                        </div>
+                        <div class="heat-zone cool" data-zone="Coyoacán">
+                            <span class="zone-name">Coyoacán</span>
+                            <span class="zone-count">97</span>
+                        </div>
+                    </div>
+                    <p class="heatmap-insight">📍 Condesa está ON FIRE esta noche</p>
+                </div>
+            </div>
+
+            <nav class="bottom-nav">
+                <button class="nav-item active" onclick="showScreen('dashboard')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Para Ti</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('explore')">
+                    <span class="nav-icon">🔍</span>
+                    <span>Explorar</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('calendar')">
+                    <span class="nav-icon">📅</span>
+                    <span>Mis Planes</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span>Perfil</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Explore Screen -->
+    <div id="explore" class="screen">
+        <div class="explore-container">
+            <header class="explore-header">
+                <div class="glassmorphic-header">
+                    <button class="nav-pill" onclick="showScreen('dashboard')">
+                        <span class="nav-pill-icon">←</span>
+                    </button>
+                    <h2>Explorar Eventos</h2>
+                    <div class="header-actions">
+                        <button class="nav-pill glass" onclick="showScreen('calendar')">
+                            <span class="nav-pill-icon">📅</span>
+                        </button>
+                        <button class="nav-pill glass" onclick="showBudgetCalculator()">
+                            <span class="nav-pill-icon">💰</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar eventos, artistas, lugares..." id="searchInput">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </header>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">Todos</button>
+                <button class="filter-tab" data-filter="music">Música</button>
+                <button class="filter-tab" data-filter="art">Arte</button>
+                <button class="filter-tab" data-filter="food">Gastronomía</button>
+                <button class="filter-tab" data-filter="sports">Deportes</button>
+            </div>
+
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+            
+            <nav class="bottom-nav">
+                <button class="nav-item" onclick="showScreen('dashboard')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Para Ti</span>
+                </button>
+                <button class="nav-item active" onclick="showScreen('explore')">
+                    <span class="nav-icon">🔍</span>
+                    <span>Explorar</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('calendar')">
+                    <span class="nav-icon">📅</span>
+                    <span>Mis Planes</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span>Perfil</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Calendar Screen -->
+    <div id="calendar" class="screen">
+        <div class="calendar-container">
+            <header class="calendar-header">
+                <div class="glassmorphic-header">
+                    <button class="nav-pill" onclick="showScreen('dashboard')">
+                        <span class="nav-pill-icon">←</span>
+                    </button>
+                    <h2>Mis Planes</h2>
+                    <button class="nav-pill pulse" onclick="showStatsModal()">
+                        <span class="nav-pill-icon">📊</span>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Floating Action Menu -->
+            <div class="fab-container">
+                <button class="fab-main" onclick="toggleFabMenu(this)">
+                    <span class="fab-icon">+</span>
+                </button>
+                <div class="fab-menu">
+                    <button class="fab-item" onclick="showScreen('explore')" data-tooltip="Explorar">
+                        <span>🔍</span>
+                    </button>
+                    <button class="fab-item" onclick="showScreen('profile')" data-tooltip="Perfil">
+                        <span>👤</span>
+                    </button>
+                    <button class="fab-item" onclick="showScreen('dashboard')" data-tooltip="Inicio">
+                        <span>🏠</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="calendar-view">
+                <div class="calendar-month">
+                    <div class="month-header">
+                        <button class="month-nav">‹</button>
+                        <h3>Noviembre 2024</h3>
+                        <button class="month-nav">›</button>
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">Dom</div>
+                        <div class="calendar-day-header">Lun</div>
+                        <div class="calendar-day-header">Mar</div>
+                        <div class="calendar-day-header">Mié</div>
+                        <div class="calendar-day-header">Jue</div>
+                        <div class="calendar-day-header">Vie</div>
+                        <div class="calendar-day-header">Sáb</div>
+                        <!-- Calendar days will be generated by JS -->
+                    </div>
+                </div>
+
+                <div class="upcoming-plans">
+                    <h4>Próximos Planes</h4>
+                    <div class="plan-list">
+                        <div class="plan-item">
+                            <div class="plan-date">
+                                <div class="plan-day">HOY</div>
+                                <div class="plan-time">20:00</div>
+                            </div>
+                            <div class="plan-info">
+                                <h5>Café Tacvba</h5>
+                                <p>Auditorio Nacional</p>
+                                <div class="plan-attendees">
+                                    <div class="attendee-avatar">T</div>
+                                    <div class="attendee-avatar">A</div>
+                                    <span>+2 más</span>
+                                </div>
+                            </div>
+                            <div class="plan-actions">
+                                <button class="plan-action-btn">💬</button>
+                                <button class="plan-action-btn">💰</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="bottom-nav">
+                <button class="nav-item" onclick="showScreen('dashboard')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Para Ti</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('explore')">
+                    <span class="nav-icon">🔍</span>
+                    <span>Explorar</span>
+                </button>
+                <button class="nav-item active" onclick="showScreen('calendar')">
+                    <span class="nav-icon">📅</span>
+                    <span>Mis Planes</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span>Perfil</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="profile" class="screen">
+        <div class="profile-container">
+            <header class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-avatar">🎵</div>
+                    <div class="profile-details">
+                        <h2 id="profileName">Música Lover</h2>
+                        <p class="profile-level">Explorador Urbano • Nivel 3</p>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Eventos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">8</span>
+                                <span class="stat-label">Amigos</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">750</span>
+                                <span class="stat-label">XP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="settings-btn" onclick="showSettings()">⚙️</button>
+            </header>
+
+            <!-- Contextual Action Bar -->
+            <div class="contextual-actions">
+                <div class="action-card glass" onclick="showScreen('dashboard')">
+                    <span class="action-icon">🏠</span>
+                    <span class="action-label">Inicio</span>
+                </div>
+                <div class="action-card glass" onclick="showScreen('explore')">
+                    <span class="action-icon">🔍</span>
+                    <span class="action-label">Explorar</span>
+                </div>
+                <div class="action-card glass" onclick="showScreen('calendar')">
+                    <span class="action-icon">📅</span>
+                    <span class="action-label">Planes</span>
+                </div>
+                <div class="action-card glass highlight" onclick="showBudgetCalculator()">
+                    <span class="action-icon">💰</span>
+                    <span class="action-label">Presupuesto</span>
+                </div>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-section">
+                    <h3>Tus Logros</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement earned">
+                            <div class="achievement-icon">🎸</div>
+                            <div class="achievement-info">
+                                <h4>Rockero Total</h4>
+                                <p>Asistió a 5 conciertos de rock</p>
+                            </div>
+                        </div>
+                        <div class="achievement earned">
+                            <div class="achievement-icon">👑</div>
+                            <div class="achievement-info">
+                                <h4>Organizador VIP</h4>
+                                <p>Creó 3 planes grupales exitosos</p>
+                            </div>
+                        </div>
+                        <div class="achievement locked">
+                            <div class="achievement-icon">🌟</div>
+                            <div class="achievement-info">
+                                <h4>Leyenda Local</h4>
+                                <p>Alcanza nivel 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>Gustos Musicales</h3>
+                    <div class="music-preferences">
+                        <div class="preference-tag">Rock Alternativo</div>
+                        <div class="preference-tag">Indie Pop</div>
+                        <div class="preference-tag">Electrónica</div>
+                        <div class="preference-tag">Jazz</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <h3>Estadísticas del Mes</h3>
+                    <div class="stats-chart">
+                        <div class="chart-item">
+                            <div class="chart-bar" style="height: 60%"></div>
+                            <span>Conciertos</span>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-bar" style="height: 40%"></div>
+                            <span>Teatro</span>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-bar" style="height: 80%"></div>
+                            <span>Gastronomía</span>
+                        </div>
+                        <div class="chart-item">
+                            <div class="chart-bar" style="height: 30%"></div>
+                            <span>Deportes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="bottom-nav">
+                <button class="nav-item" onclick="showScreen('dashboard')">
+                    <span class="nav-icon">🏠</span>
+                    <span>Para Ti</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('explore')">
+                    <span class="nav-icon">🔍</span>
+                    <span>Explorar</span>
+                </button>
+                <button class="nav-item" onclick="showScreen('calendar')">
+                    <span class="nav-icon">📅</span>
+                    <span>Mis Planes</span>
+                </button>
+                <button class="nav-item active" onclick="showScreen('profile')">
+                    <span class="nav-icon">👤</span>
+                    <span>Perfil</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Budget Calculator Modal -->
+    <div id="budgetModal" class="modal">
+        <div class="modal-content budget-modal">
+            <div class="modal-header">
+                <h3>💰 Calculadora de Presupuesto</h3>
+                <button class="close-btn" onclick="closeBudgetCalculator()">&times;</button>
+            </div>
+            
+            <div class="budget-content">
+                <div class="event-summary">
+                    <div class="event-thumbnail">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=60&fit=crop" alt="Zoé">
+                    </div>
+                    <div class="event-details">
+                        <h4>Zoé en el Foro Sol</h4>
+                        <p>Sábado 23 Nov • 21:00</p>
+                    </div>
+                </div>
+
+                <div class="budget-calculator">
+                    <div class="budget-section">
+                        <h4>🎫 Tickets</h4>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>Zona General</span>
+                                <div class="quantity-selector">
+                                    <button onclick="updateQuantity('tickets', -1)">-</button>
+                                    <span id="ticketsQuantity">2</span>
+                                    <button onclick="updateQuantity('tickets', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">$<span id="ticketsPrice">1200</span></div>
+                        </div>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>Comisiones</span>
+                            </div>
+                            <div class="item-price">$<span id="feesPrice">120</span></div>
+                        </div>
+                    </div>
+
+                    <div class="budget-section">
+                        <h4>🚗 Transporte</h4>
+                        <div class="transport-options">
+                            <label class="transport-option">
+                                <input type="radio" name="transport" value="uber" checked onchange="updateTransport('uber')">
+                                <div class="option-content">
+                                    <span>Uber/DiDi</span>
+                                    <span class="option-price">$300</span>
+                                </div>
+                            </label>
+                            <label class="transport-option">
+                                <input type="radio" name="transport" value="metro" onchange="updateTransport('metro')">
+                                <div class="option-content">
+                                    <span>Metro + Caminata</span>
+                                    <span class="option-price">$40</span>
+                                </div>
+                            </label>
+                            <label class="transport-option">
+                                <input type="radio" name="transport" value="car" onchange="updateTransport('car')">
+                                <div class="option-content">
+                                    <span>Auto propio</span>
+                                    <span class="option-price">$200</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="budget-section">
+                        <h4>🍻 Bebidas & Comida</h4>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>Cenas antes del evento</span>
+                                <div class="quantity-selector">
+                                    <button onclick="updateQuantity('dinner', -1)">-</button>
+                                    <span id="dinnerQuantity">2</span>
+                                    <button onclick="updateQuantity('dinner', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">$<span id="dinnerPrice">400</span></div>
+                        </div>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>Bebidas en el evento</span>
+                                <div class="quantity-selector">
+                                    <button onclick="updateQuantity('drinks', -1)">-</button>
+                                    <span id="drinksQuantity">4</span>
+                                    <button onclick="updateQuantity('drinks', 1)">+</button>
+                                </div>
+                            </div>
+                            <div class="item-price">$<span id="drinksPrice">320</span></div>
+                        </div>
+                    </div>
+
+                    <div class="budget-section">
+                        <h4>💸 Gastos Extra</h4>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>Merchandise/Recuerdos</span>
+                                <input type="range" min="0" max="500" value="150" class="range-slider" onchange="updateMerchandise(this.value)">
+                            </div>
+                            <div class="item-price">$<span id="merchandisePrice">150</span></div>
+                        </div>
+                        <div class="budget-item">
+                            <div class="item-info">
+                                <span>After party</span>
+                                <input type="checkbox" onchange="toggleAfterParty(this.checked)">
+                            </div>
+                            <div class="item-price">$<span id="afterPartyPrice">0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="budget-summary">
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span>$<span id="subtotal">2330</span></span>
+                        </div>
+                        <div class="total-row">
+                            <span>Por persona</span>
+                            <span>$<span id="perPerson">1165</span></span>
+                        </div>
+                        <div class="total-row main-total">
+                            <span>Total</span>
+                            <span>$<span id="grandTotal">2330</span></span>
+                        </div>
+                    </div>
+
+                    <div class="budget-actions">
+                        <button class="btn-secondary" onclick="shareBudget()">📤 Compartir</button>
+                        <button class="btn-primary" onclick="saveBudget()">💾 Guardar Presupuesto</button>
+                    </div>
+
+                    <div class="split-options">
+                        <h5>Dividir gastos:</h5>
+                        <div class="split-buttons">
+                            <button class="split-btn" onclick="splitEqually()">Dividir Equitativamente</button>
+                            <button class="split-btn" onclick="splitCustom()">División Personalizada</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Friend Matching Quiz Modal -->
+    <div id="matchingModal" class="modal">
+        <div class="modal-content matching-modal">
+            <div class="modal-header">
+                <h3>🤝 Encuentra Tu Squad Perfecto</h3>
+                <button class="close-btn" onclick="closeMatchingModal()">&times;</button>
+            </div>
+            
+            <div class="matching-content">
+                <div class="quiz-step active" id="quizStep1">
+                    <h4>¿Cuál es tu vibe ideal para salir?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-option" onclick="selectQuizOption('adventure')">
+                            <span class="option-emoji">🎸</span>
+                            <span>Aventurero - Conciertos y festivales</span>
+                        </button>
+                        <button class="quiz-option" onclick="selectQuizOption('chill')">
+                            <span class="option-emoji">☕</span>
+                            <span>Relajado - Cafés y exposiciones</span>
+                        </button>
+                        <button class="quiz-option" onclick="selectQuizOption('party')">
+                            <span class="option-emoji">🎉</span>
+                            <span>Fiestero - Clubs y rooftops</span>
+                        </button>
+                        <button class="quiz-option" onclick="selectQuizOption('foodie')">
+                            <span class="option-emoji">🍽️</span>
+                            <span>Foodie - Restaurantes y bares</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="quiz-step" id="quizStep2">
+                    <h4>¿Cuánta gente es tu grupo ideal?</h4>
+                    <div class="quiz-options">
+                        <button class="quiz-option" onclick="selectQuizOption('small')">
+                            <span class="option-emoji">👥</span>
+                            <span>2-3 personas - Íntimo</span>
+                        </button>
+                        <button class="quiz-option" onclick="selectQuizOption('medium')">
+                            <span class="option-emoji">👫👬</span>
+                            <span>4-6 personas - Balanceado</span>
+                        </button>
+                        <button class="quiz-option" onclick="selectQuizOption('large')">
+                            <span class="option-emoji">🎊</span>
+                            <span>7+ personas - Mientras más mejor</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="quiz-step" id="quizResults">
+                    <h4>🎯 ¡Squad Perfecto Encontrado!</h4>
+                    <div class="match-results">
+                        <div class="match-card">
+                            <div class="match-score">98% Match</div>
+                            <div class="match-group">
+                                <div class="match-member">
+                                    <img src="https://i.pravatar.cc/100?img=1" alt="Sofia">
+                                    <span>Sofia</span>
+                                </div>
+                                <div class="match-member">
+                                    <img src="https://i.pravatar.cc/100?img=2" alt="Diego">
+                                    <span>Diego</span>
+                                </div>
+                                <div class="match-member">
+                                    <img src="https://i.pravatar.cc/100?img=3" alt="Carla">
+                                    <span>Carla</span>
+                                </div>
+                            </div>
+                            <p class="match-description">
+                                Este grupo ama los conciertos indie, los rooftops con mezcal y 
+                                las exposiciones de arte contemporáneo. Ya tienen 3 eventos planeados 
+                                este mes.
+                            </p>
+                            <button class="btn-primary" onclick="joinSquad()">Unirme al Squad</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quiz-progress">
+                    <div class="progress-dots">
+                        <span class="dot active" id="dot1"></span>
+                        <span class="dot" id="dot2"></span>
+                        <span class="dot" id="dot3"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Premium Upgrade Modal -->
+    <div id="premiumModal" class="modal">
+        <div class="modal-content premium-modal">
+            <div class="premium-glow"></div>
+            <div class="modal-header">
+                <h3>⭐ Unlock Plan Saver PRO</h3>
+                <button class="close-btn" onclick="closePremiumModal()">&times;</button>
+            </div>
+            
+            <div class="premium-content">
+                <div class="premium-badge">
+                    <span class="badge-icon">👑</span>
+                    <span class="badge-text">EARLY ACCESS</span>
+                </div>
+                
+                <h4>Obtén superpoderes con IA</h4>
+                
+                <div class="premium-features">
+                    <div class="premium-feature">
+                        <span class="feature-icon">🎙️</span>
+                        <div>
+                            <h5>Asistente de Voz</h5>
+                            <p>Planea eventos hablando naturalmente</p>
+                        </div>
+                    </div>
+                    <div class="premium-feature">
+                        <span class="feature-icon">🤖</span>
+                        <div>
+                            <h5>AI Concierge 24/7</h5>
+                            <p>Tu asistente personal siempre disponible</p>
+                        </div>
+                    </div>
+                    <div class="premium-feature">
+                        <span class="feature-icon">💎</span>
+                        <div>
+                            <h5>Acceso VIP</h5>
+                            <p>Preventas exclusivas y descuentos</p>
+                        </div>
+                    </div>
+                    <div class="premium-feature">
+                        <span class="feature-icon">∞</span>
+                        <div>
+                            <h5>Planes Ilimitados</h5>
+                            <p>Sin límites en creación de eventos</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pricing-toggle">
+                    <button class="price-option active" onclick="selectPricing('monthly')">
+                        <span class="price-label">Mensual</span>
+                        <span class="price-amount">$299</span>
+                        <span class="price-period">/mes</span>
+                    </button>
+                    <button class="price-option" onclick="selectPricing('yearly')">
+                        <span class="price-label">Anual</span>
+                        <span class="price-amount">$199</span>
+                        <span class="price-period">/mes</span>
+                        <span class="price-save">Ahorra 33%</span>
+                    </button>
+                </div>
+                
+                <button class="btn-premium-cta" onclick="upgradeToPremium()">
+                    Empezar prueba gratis de 7 días
+                </button>
+                
+                <p class="premium-disclaimer">
+                    Sin tarjeta de crédito • Cancela cuando quieras
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FOMO Notification -->
+    <div id="fomoNotification" class="fomo-notification">
+        <div class="fomo-content">
+            <span class="fomo-icon">🔥</span>
+            <div class="fomo-text">
+                <p class="fomo-main">Miguel y 12 amigos más</p>
+                <p class="fomo-sub">acaban de comprar boletos para Zoé</p>
+            </div>
+            <span class="fomo-time">hace 2 min</span>
+        </div>
+    </div>
+    
+    <!-- Statistics Modal -->
+    <!-- Statistics Modal -->
+    <div id="statsModal" class="modal">
+        <div class="modal-content stats-modal">
+            <div class="modal-header">
+                <h3>📊 Estadísticas Completas</h3>
+                <button class="close-btn" onclick="closeStatsModal()">&times;</button>
+            </div>
+            
+            <div class="stats-content">
+                <div class="stats-overview">
+                    <h4>📈 Resumen General</h4>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🎪</div>
+                            <div class="stat-value" id="statsEventsCount">12</div>
+                            <div class="stat-label">Eventos Asistidos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-value" id="statsFriendsCount">8</div>
+                            <div class="stat-label">Amigos Conectados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">⚡</div>
+                            <div class="stat-value" id="statsXPCount">750</div>
+                            <div class="stat-label">Puntos XP</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏆</div>
+                            <div class="stat-value" id="statsLevel">3</div>
+                            <div class="stat-label">Nivel Actual</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-detailed">
+                    <h4>🔍 Análisis Detallado</h4>
+                    <div class="stats-rows">
+                        <div class="stats-row">
+                            <span class="stats-label">📅 Eventos por mes:</span>
+                            <span class="stats-value" id="statsMonthlyEvents">4</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">💰 Gasto promedio:</span>
+                            <span class="stats-value">$<span id="statsAverageSpent">450</span></span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">🎵 Categoría favorita:</span>
+                            <span class="stats-value" id="statsFavoriteCategory">Música</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">🔥 Racha activa:</span>
+                            <span class="stats-value"><span id="statsActiveStreak">15</span> días</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">🎯 Planes creados:</span>
+                            <span class="stats-value">23</span>
+                        </div>
+                        <div class="stats-row">
+                            <span class="stats-label">⭐ Eventos favoritos:</span>
+                            <span class="stats-value">9</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-achievements">
+                    <h4>🏆 Logros Recientes</h4>
+                    <div class="achievement-list">
+                        <div class="achievement-item">
+                            <span class="achievement-icon">🎸</span>
+                            <span class="achievement-text">Rockero Total - Asististe a 5 conciertos</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-icon">👑</span>
+                            <span class="achievement-text">Organizador VIP - Creaste 10 planes exitosos</span>
+                        </div>
+                        <div class="achievement-item">
+                            <span class="achievement-icon">💰</span>
+                            <span class="achievement-text">Maestro del Presupuesto - Usaste la calculadora 5 veces</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="planModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Plan: Zoé en el Foro Sol</h3>
+                <button class="close-btn" onclick="closePlanModal()">&times;</button>
+            </div>
+            
+            <div class="plan-steps">
+                <div class="step active" id="step1">
+                    <h4>1. Invita a tu gente</h4>
+                    <div class="friends-selector">
+                        <div class="friend-option" data-friend="ana">
+                            <div class="friend-avatar">A</div>
+                            <div class="friend-info">
+                                <p class="friend-name">Ana García</p>
+                                <p class="friend-match">95% compatible</p>
+                            </div>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="friend-option" data-friend="miguel">
+                            <div class="friend-avatar">M</div>
+                            <div class="friend-info">
+                                <p class="friend-name">Miguel Ruiz</p>
+                                <p class="friend-match">87% compatible</p>
+                            </div>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="friend-option" data-friend="sofia">
+                            <div class="friend-avatar">S</div>
+                            <div class="friend-info">
+                                <p class="friend-name">Sofía López</p>
+                                <p class="friend-match">82% compatible</p>
+                            </div>
+                            <input type="checkbox">
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
+
+                <div class="step" id="step2">
+                    <h4>2. Elige la fecha perfecta</h4>
+                    <div class="date-availability">
+                        <p class="availability-hint">🤖 IA detectó que todos están libres el sábado</p>
+                        <div class="date-options">
+                            <div class="date-option recommended">
+                                <div class="date-day">SAB</div>
+                                <div class="date-number">23</div>
+                                <div class="date-month">NOV</div>
+                                <div class="availability-indicator">✅ Todos libres</div>
+                            </div>
+                            <div class="date-option">
+                                <div class="date-day">DOM</div>
+                                <div class="date-number">24</div>
+                                <div class="date-month">NOV</div>
+                                <div class="availability-indicator">⚠️ 1 ocupado</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="nextStep()">Continuar</button>
+                </div>
+
+                <div class="step" id="step3">
+                    <h4>3. Personaliza tu plan</h4>
+                    <div class="plan-customization">
+                        <div class="input-group">
+                            <label>Nombre del plan</label>
+                            <input type="text" value="Plan: Concierto de Zoé" id="planName">
+                        </div>
+                        <div class="input-group">
+                            <label>Mensaje para el grupo</label>
+                            <textarea placeholder="¡Hey! ¿Quién se apunta al concierto de Zoé? Va a estar increíble 🎸">¡Hey! ¿Quién se apunta al concierto de Zoé? Va a estar increíble 🎸</textarea>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="createFinalPlan()">Crear Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success notification -->
+    <div id="successNotification" class="notification">
+        <div class="notification-content">
+            <div class="notification-icon">🎉</div>
+            <div class="notification-text">
+                <h4>¡Plan creado exitosamente!</h4>
+                <p>Se envió la invitación a Ana y Miguel</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

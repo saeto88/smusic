@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Navigation</title>
+    <style>
+        .screen { display: none; padding: 20px; margin: 20px; border: 2px solid #ccc; }
+        .screen.active { display: block; background: #f0f8ff; }
+        button { margin: 10px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Test Navigation</h1>
+    
+    <div>
+        <button onclick="showScreen('dashboard')">Dashboard</button>
+        <button onclick="showScreen('explore')">Explore</button>
+        <button onclick="showScreen('calendar')">Calendar</button>
+        <button onclick="showScreen('profile')">Profile</button>
+    </div>
+    
+    <div id="dashboard" class="screen active">
+        <h2>Dashboard Screen</h2>
+        <p>This is the dashboard content</p>
+    </div>
+    
+    <div id="explore" class="screen">
+        <h2>Explore Screen</h2>
+        <p>This is the explore content</p>
+    </div>
+    
+    <div id="calendar" class="screen">
+        <h2>Calendar Screen</h2>
+        <p>This is the calendar content</p>
+    </div>
+    
+    <div id="profile" class="screen">
+        <h2>Profile Screen</h2>
+        <p>This is the profile content</p>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            console.log('showScreen called with:', screenId);
+            
+            // Hide all screens first
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show the requested screen
+            const targetScreen = document.getElementById(screenId);
+            console.log('Target screen found:', targetScreen);
+            
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+                console.log('Screen switched to:', screenId);
+            } else {
+                console.error('Screen not found:', screenId);
+            }
+        }
+    </script>
+</body>
+</html>
